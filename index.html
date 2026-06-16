@@ -269,67 +269,122 @@ function finalGift(){
 
 document.body.innerHTML=`
 
-<div style="padding:40px;">
+<style>
 
-<h1 style="font-size:70px;color:#ff0066;">
+body{
+background:linear-gradient(135deg,#ffb6c1,#ffd1dc,#fff0f5);
+overflow:hidden;
+font-family:Arial;
+}
 
+@keyframes fadeIn{
+from{
+opacity:0;
+transform:translateY(30px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+.message{
+opacity:0;
+font-size:32px;
+margin:20px;
+animation:fadeIn 1.5s forwards;
+}
+
+.big{
+font-size:70px;
+color:#ff0066;
+font-weight:bold;
+}
+
+.emoji{
+font-size:100px;
+}
+
+button{
+padding:18px 40px;
+font-size:24px;
+border:none;
+border-radius:50px;
+background:#ff4081;
+color:white;
+cursor:pointer;
+margin-top:40px;
+}
+
+</style>
+
+<div style="
+height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+padding:20px;
+">
+
+<div class="message big" style="animation-delay:0s;">
 🎉 HAPPY BIRTHDAY HANA 🎉
-
-</h1>
-
-<br>
-
-<div style="font-size:120px;">
-
-🎂🎈🎊✨❤️
-
 </div>
 
-<br>
+<div class="message emoji" style="animation-delay:1.5s;">
+🎂🎈🎊✨❤️
+</div>
 
-<p style="font-size:30px;">
+<div class="message" style="animation-delay:3s;">
+May your day be filled with laughter...
+</div>
 
-May your day be filled with laughter,
+<div class="message" style="animation-delay:4.5s;">
+Happiness...
+</div>
 
-happiness,
+<div class="message" style="animation-delay:6s;">
+Amazing memories...
+</div>
 
-amazing memories,
+<div class="message" style="animation-delay:7.5s;">
+Lots of cake...
+</div>
 
-lots of cake,
+<div class="message" style="animation-delay:9s;">
+And endless reasons to smile!
+</div>
 
-and endless reasons to smile!
-
-</p>
-
-<br>
-
-<h2>
-
+<div class="message" style="animation-delay:10.5s;">
 🏆 Achievement Unlocked!
+</div>
 
-</h2>
-
-<br>
-
-<h2>
-
+<div class="message" style="animation-delay:12s;">
 You Completed Hana's Birthday Adventure!
+</div>
 
-</h2>
+<div class="message" style="animation-delay:13.5s;">
+😊 It's been a while...
+</div>
 
-<br>
+<div class="message" style="animation-delay:15s;">
+But I didn't want to miss...
+</div>
 
-<h2>
+<div class="message" style="animation-delay:16.5s;">
+The chance to wish you...
+</div>
 
-😊 It's been a while,
+<div class="message" style="animation-delay:18s;">
+A Very Happy Birthday!
+</div>
 
-but I didn't want to miss
-
-the chance to wish you
-
-a very Happy Birthday!
-
-</h2>
+<div class="message" style="animation-delay:20s;">
+<button onclick="location.reload()">
+🔄 Play Again
+</button>
+</div>
 
 </div>
 

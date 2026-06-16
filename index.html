@@ -19,8 +19,6 @@ margin:auto;
 padding:20px;
 }
 
-h2{font-size:20px;line-height:1.4;}
-
 .option{
 background:white;
 margin:10px;
@@ -36,7 +34,6 @@ border-radius:20px;
 background:#ff4081;
 color:white;
 margin-top:15px;
-font-size:16px;
 }
 
 .balloon{
@@ -44,6 +41,7 @@ position:fixed;
 font-size:22px;
 animation:up 10s linear infinite;
 }
+
 @keyframes up{
 0%{transform:translateY(120vh);}
 100%{transform:translateY(-120vh);}
@@ -80,13 +78,13 @@ to{opacity:1;}
 
 <div id="app"></div>
 
-<!-- ✅ AUDIO FILES -->
+<!-- ✅ AUDIO -->
 <audio id="quizMusic" src="quiz.mp3" loop></audio>
 <audio id="giftMusic" src="gift.mp3" loop></audio>
 
 <script>
 
-/* ✅ SAFE AUDIO */
+/* AUDIO CONTROL */
 function play(id){
 let m=document.getElementById(id);
 if(m){
@@ -98,12 +96,11 @@ function stop(id){
 let m=document.getElementById(id);
 if(m){
 m.pause();
-m.currentTime = 0;
+m.currentTime=0;
 }
 }
 
-/* ================= START SCREEN ================= */
-
+/* START SCREEN */
 function startScreen(){
 document.getElementById("app").innerHTML=`
 <h1>🎂 HANA 🎂</h1>
@@ -117,7 +114,7 @@ play("quizMusic");
 showQ();
 }
 
-/* ================= QUIZ ================= */
+/* QUIZ */
 
 let q=0;
 let answered=false;
@@ -133,26 +130,26 @@ a:"😁 Correct!! It's HANA hehehee 🎉"
 
 {
 q:`🔴 A mysterious button appears.<br><br>What do you do?`,
-o:["Press it immediately 🔴","Read instructions 📜","Ask someone 👀","Walk away 🚶"],
-a:`Too late. You pressed it.<br>Welcome to the Birthday Dimension 🎉`
+o:["Press immediately 🔴","Read 📜","Ask 👀","Walk 🚶"],
+a:`Too late. Birthday Dimension 🎉`
 },
 
 {
-q:`🎁 You find a treasure chest.<br><br>What do you hope is inside?`,
-o:["Gold 💰","Unlimited pizza 🍕","Chocolates 🍫","Skip Mondays 😴"],
-a:`Sorry... it was just another birthday question 😂`
+q:`🎁 Treasure chest?<br><br>What inside?`,
+o:["Gold 💰","Pizza 🍕","Chocolate 🍫","Skip Monday 😴"],
+a:`Just another question 😂`
 },
 
 {
-q:`🎂 You can make ONE wish`,
-o:["Infinite money 💸","Infinite food 🍔","Infinite naps 😴","Infinite luck 🍀"],
-a:`Nice choice!<br>But today's wish has already been used...<br>to make someone's birthday unforgettable ✨`
+q:`🎂 One wish?`,
+o:["Money 💸","Food 🍔","Sleep 😴","Luck 🍀"],
+a:`Wish used for her birthday ✨`
 },
 
 {
-q:`🎉 You've made it this far.<br><br>Are you ready for the surprise?`,
-o:["YES!","ABSOLUTELY!","I’VE BEEN READY!","JUST SHOW ME!"],
-a:`Correct.<br>The birthday surprise is loading... 🎂✨`
+q:`🎉 Ready for surprise?`,
+o:["YES","ABSOLUTELY","READY","SHOW ME"],
+a:`Surprise loading 🎂✨`
 }
 
 ];
@@ -162,7 +159,6 @@ function showQ(){
 answered=false;
 
 let data=quiz[q];
-
 let html=`<h2>${data.q}</h2>`;
 
 data.o.forEach(opt=>{
@@ -173,7 +169,6 @@ document.getElementById("app").innerHTML=html;
 }
 
 function answer(){
-
 if(answered) return;
 answered=true;
 
@@ -192,7 +187,7 @@ startGame();
 }
 }
 
-/* ================= GIFTS ================= */
+/* GIFTS */
 
 let g=0;
 
@@ -209,8 +204,10 @@ const messages=[
 ];
 
 function startGame(){
+
 stop("quizMusic");
-play("giftMusic");
+play("giftMusic");  // ✅ starts and loops forever
+
 showGift();
 }
 
@@ -242,11 +239,9 @@ finalPage();
 }
 }
 
-/* ================= FINAL ================= */
+/* FINAL (MUSIC CONTINUES ✅) */
 
 function finalPage(){
-
-stop("giftMusic");
 
 document.getElementById("app").innerHTML=`
 
@@ -270,7 +265,5 @@ document.getElementById("app").innerHTML=`
 startScreen();
 
 </script>
-
 </body>
 </html>
-``

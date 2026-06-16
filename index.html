@@ -1,396 +1,232 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hana Birthday Adventure</title>
-
 <style>
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
-
 body{
+margin:0;
 font-family:Arial;
-background:linear-gradient(135deg,#ffb6c1,#ffd1dc,#fff0f5);
-overflow-x:hidden;
+background:linear-gradient(135deg,#ffb6c1,#ffd1dc);
 text-align:center;
+overflow:hidden;
 }
 
-.balloon{
-position:fixed;
-font-size:40px;
-animation:up 10s linear infinite;
-}
-
-@keyframes up{
-0%{
-transform:translateY(120vh);
-}
-100%{
-transform:translateY(-120vh);
-}
-}
-
-.container{
-padding-top:80px;
-}
-
-h1{
-color:#ff0066;
-font-size:55px;
-margin-bottom:20px;
-}
-
-p{
-font-size:24px;
-margin-bottom:30px;
-}
-
-button{
-padding:18px 45px;
-font-size:24px;
-border:none;
-border-radius:50px;
-background:#ff4081;
-color:white;
-cursor:pointer;
-transition:.3s;
-}
-
-button:hover{
-transform:scale(1.1);
-}
-
-.grid{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:20px;
-max-width:850px;
-margin:30px auto;
+#app{
+max-width:400px;
+margin:auto;
 padding:20px;
 }
 
-.gift{
-height:150px;
-background:#ff4f81;
-border-radius:20px;
-display:flex;
-justify-content:center;
-align-items:center;
-font-size:60px;
-cursor:pointer;
-transition:.3s;
-}
+h2{font-size:20px;line-height:1.4;}
 
-.gift:hover{
-transform:scale(1.05);
-}
-
-.locked{
-opacity:.4;
-}
-
-.progress{
-font-size:26px;
-margin-top:20px;
-font-weight:bold;
-}
-
-.open{
+.option{
 background:white;
-font-size:18px;
-padding:10px;
+margin:10px;
+padding:12px;
+border-radius:20px;
 }
 
-#final{
-margin:30px;
-font-size:30px;
-font-weight:bold;
-color:#cc0066;
+button{
+padding:10px 20px;
+border:none;
+border-radius:20px;
+background:#ff4081;
+color:white;
+margin-top:15px;
+}
+
+/* balloon */
+.balloon{
+position:fixed;
+font-size:22px;
+animation:up 10s linear infinite;
+}
+@keyframes up{
+0%{transform:translateY(120vh);}
+100%{transform:translateY(-120vh);}
+}
+
+/* gift */
+.gift{
+font-size:80px;
+cursor:pointer;
+}
+
+/* slide */
+.slide{
+animation:slideIn 0.5s;
+}
+@keyframes slideIn{
+from{transform:translateX(100%);}
+to{transform:translateX(0);}
+}
+
+/* fade */
+.fade{
+opacity:0;
+animation:fade 1s forwards;
+}
+@keyframes fade{
+to{opacity:1;}
 }
 
 </style>
-
 </head>
 
 <body>
 
-<div class="balloon" style="left:10%">🎈</div>
-<div class="balloon" style="left:30%;animation-delay:2s;">🎈</div>
-<div class="balloon" style="left:50%;animation-delay:4s;">🎈</div>
-<div class="balloon" style="left:70%;animation-delay:1s;">🎈</div>
-<div class="balloon" style="left:90%;animation-delay:3s;">🎈</div>
+<div class="balloon" style="left:20%">🎈</div>
+<div class="balloon" style="left:70%;animation-delay:2s">🎈</div>
 
-<div id="main">
-
-<div class="container">
-
-<h1>🎂 HANA 🎂</h1>
-
-<p>
-A Special Birthday Adventure Awaits...
-</p>
-
-<button onclick="startGame()">
-🎁 Start Adventure
-</button>
-
-</div>
-
-</div>
+<div id="app"></div>
 
 <script>
 
-let currentGift=0;
+/* QUIZ */
 
-const messages=[
+let q=0;
+let answered=false;
 
-"😂 Growing older is mandatory. Growing up is optional!",
+const quiz=[
 
-"🎂 Birthday calories don't count today!",
+{
+q:`😂 Do you remember me?<br><br>
+If yes... what was the nickname I gave you?`,
+o:["Sahana","Sahana silent queen","HANA","shhhhh"],
+a:"😁 Correct!! It's HANA hehehee 🎉"
+},
 
-"🦄 Happiness Level Unlocked!",
+{
+q:`🔴 A mysterious button appears.<br><br>What do you do?`,
+o:["Press it immediately 🔴","Read instructions 📜","Ask someone 👀","Walk away 🚶"],
+a:`Too late. You pressed it.<br>Welcome to the Birthday Dimension 🎉`
+},
 
-"🐼 Panda hugs are on the way!",
+{
+q:`🎁 You find a treasure chest.<br><br>What do you hope is inside?`,
+o:["Gold 💰","Unlimited pizza 🍕","Chocolates 🍫","Skip Mondays 😴"],
+a:`Sorry... it was just another birthday question 😂`
+},
 
-"🍕 Pizza fixes everything!",
+{
+q:`🎂 You can make ONE wish`,
+o:["Infinite money 💸","Infinite food 🍔","Infinite naps 😴","Infinite luck 🍀"],
+a:`Nice choice!<br>But today's wish was already used...<br>to make this birthday unforgettable ✨`
+},
 
-"👑 Queen Hana activated!",
-
-"🤣 Another year of awesomeness!",
-
-"🎈 Smile! Today belongs to you!",
-
-"❤️ One final surprise is waiting!"
+{
+q:`🎉 You've made it this far.<br><br>Are you ready for the surprise?`,
+o:["YES!","ABSOLUTELY!","I’VE BEEN READY!","JUST SHOW ME!"],
+a:`Correct.<br>The birthday surprise is loading... 🎂✨`
+}
 
 ];
 
+function showQ(){
+
+answered=false;
+
+let data=quiz[q];
+
+let html=`<h2>${data.q}</h2>`;
+
+data.o.forEach(opt=>{
+html+=`<div class="option" onclick="answer()">${opt}</div>`;
+});
+
+document.getElementById("app").innerHTML=html;
+}
+
+function answer(){
+
+if(answered) return;
+answered=true;
+
+document.getElementById("app").innerHTML+=`
+<p class="fade">${quiz[q].a}</p>
+<button onclick="nextQ()">Next ➡️</button>
+`;
+}
+
+function nextQ(){
+q++;
+if(q<quiz.length) showQ();
+else startGame();
+}
+
+/* GIFTS */
+
+let g=0;
+
+const messages=[
+"😂 Growing older is mandatory. Growing up is optional!",
+"🎂 Birthday calories don't count today!",
+"🦄 Happiness Level Unlocked!",
+"🐼 Panda hugs are on the way!",
+"🍕 Pizza fixes everything!",
+"👑 Queen Hana activated!",
+"🤣 Another year of awesomeness!",
+"🎈 Smile! Today belongs to you!",
+"❤️ One final surprise is waiting!"
+];
+
 function startGame(){
+showGift();
+}
 
-document.getElementById("main").innerHTML=`
+function showGift(){
 
-<h1>🎁 Hana's Birthday Adventure 🎁</h1>
-
-<div class="progress">
-Open the gifts in order!
+document.getElementById("app").innerHTML=`
+<div class="slide">
+<h2>🎁 Gift ${g+1}</h2>
+<div class="gift" onclick="openGift()">🎁</div>
+<p>Tap to open</p>
 </div>
+`;
+}
 
-<div class="grid" id="grid">
+function openGift(){
 
-</div>
+document.getElementById("app").innerHTML=`
+<h2 class="fade">${messages[g]}</h2>
+<button onclick="nextGift()">Next ➡️</button>
+`;
+}
 
-<div id="final"></div>
+function nextGift(){
+g++;
+if(g<messages.length){
+showGift();
+}else{
+finalPage();
+}
+}
+
+/* FINAL */
+
+function finalPage(){
+
+document.getElementById("app").innerHTML=`
+
+<h1 class="fade">🎉 HAPPY BIRTHDAY HANA 🎉</h1>
+
+<p class="fade" style="animation-delay:1s">May your day be filled with laughter...</p>
+<p class="fade" style="animation-delay:2s">Happiness...</p>
+<p class="fade" style="animation-delay:3s">Amazing memories...</p>
+<p class="fade" style="animation-delay:4s">Lots of cake...</p>
+<p class="fade" style="animation-delay:5s">And endless reasons to smile!</p>
+
+<p class="fade" style="animation-delay:6s">😊 It's been a while...</p>
+<p class="fade" style="animation-delay:7s">But I didn't want to miss...</p>
+<p class="fade" style="animation-delay:8s">The chance to wish you...</p>
+<p class="fade" style="animation-delay:9s">A Very Happy Birthday!</p>
 
 `;
-
-createGifts();
-
 }
 
-function createGifts(){
-
-const grid=document.getElementById("grid");
-
-for(let i=0;i<9;i++){
-
-let box=document.createElement("div");
-
-box.className="gift";
-
-if(i!=0){
-
-box.classList.add("locked");
-
-}
-
-box.innerHTML="🎁";
-
-box.onclick=function(){
-
-openGift(i,box);
-
-};
-
-grid.appendChild(box);
-
-}
-
-}
-
-function openGift(i,box){
-
-if(i!=currentGift){
-
-alert("Please open Gift "+(currentGift+1)+" first! 😊");
-
-return;
-
-}
-
-box.classList.remove("locked");
-
-box.classList.add("open");
-
-box.innerHTML=messages[i];
-
-currentGift++;
-
-let gifts=document.querySelectorAll(".gift");
-
-if(currentGift<9){
-
-gifts[currentGift].classList.remove("locked");
-
-}
-
-if(currentGift==9){
-
-document.getElementById("final").innerHTML=`
-
-<br>
-
-<button onclick="finalGift()">
-
-🏆 Open Final Golden Gift
-
-</button>
-
-`;
-
-}
-
-}
-
-function finalGift(){
-
-document.body.innerHTML=`
-
-<style>
-
-body{
-background:linear-gradient(135deg,#ffb6c1,#ffd1dc,#fff0f5);
-overflow:hidden;
-font-family:Arial;
-}
-
-@keyframes fadeIn{
-from{
-opacity:0;
-transform:translateY(30px);
-}
-to{
-opacity:1;
-transform:translateY(0);
-}
-}
-
-.message{
-opacity:0;
-font-size:32px;
-margin:20px;
-animation:fadeIn 1.5s forwards;
-}
-
-.big{
-font-size:70px;
-color:#ff0066;
-font-weight:bold;
-}
-
-.emoji{
-font-size:100px;
-}
-
-button{
-padding:18px 40px;
-font-size:24px;
-border:none;
-border-radius:50px;
-background:#ff4081;
-color:white;
-cursor:pointer;
-margin-top:40px;
-}
-
-</style>
-
-<div style="
-height:100vh;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-text-align:center;
-padding:20px;
-">
-
-<div class="message big" style="animation-delay:0s;">
-🎉 HAPPY BIRTHDAY HANA 🎉
-</div>
-
-<div class="message emoji" style="animation-delay:1.5s;">
-🎂🎈🎊✨❤️
-</div>
-
-<div class="message" style="animation-delay:3s;">
-May your day be filled with laughter...
-</div>
-
-<div class="message" style="animation-delay:4.5s;">
-Happiness...
-</div>
-
-<div class="message" style="animation-delay:6s;">
-Amazing memories...
-</div>
-
-<div class="message" style="animation-delay:7.5s;">
-Lots of cake...
-</div>
-
-<div class="message" style="animation-delay:9s;">
-And endless reasons to smile!
-</div>
-
-<div class="message" style="animation-delay:10.5s;">
-🏆 Achievement Unlocked!
-</div>
-
-<div class="message" style="animation-delay:12s;">
-You Completed Hana's Birthday Adventure!
-</div>
-
-<div class="message" style="animation-delay:13.5s;">
-😊 It's been a while...
-</div>
-
-<div class="message" style="animation-delay:15s;">
-But I didn't want to miss...
-</div>
-
-<div class="message" style="animation-delay:16.5s;">
-The chance to wish you...
-</div>
-
-<div class="message" style="animation-delay:18s;">
-A Very Happy Birthday!
-</div>
-
-<div class="message" style="animation-delay:20s;">
-<button onclick="location.reload()">
-🔄 Play Again
-</button>
-</div>
-
-</div>
-
-`;
-
-}
+/* START */
+showQ();
 
 </script>
 

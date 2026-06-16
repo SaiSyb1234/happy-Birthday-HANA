@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hana Birthday Adventure</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:Arial;
+background:linear-gradient(135deg,#ffb6c1,#ffd1dc,#fff0f5);
+overflow-x:hidden;
+text-align:center;
+}
+
+.balloon{
+position:fixed;
+font-size:40px;
+animation:up 10s linear infinite;
+}
+
+@keyframes up{
+0%{
+transform:translateY(120vh);
+}
+100%{
+transform:translateY(-120vh);
+}
+}
+
+.container{
+padding-top:80px;
+}
+
+h1{
+color:#ff0066;
+font-size:55px;
+margin-bottom:20px;
+}
+
+p{
+font-size:24px;
+margin-bottom:30px;
+}
+
+button{
+padding:18px 45px;
+font-size:24px;
+border:none;
+border-radius:50px;
+background:#ff4081;
+color:white;
+cursor:pointer;
+transition:.3s;
+}
+
+button:hover{
+transform:scale(1.1);
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:20px;
+max-width:850px;
+margin:30px auto;
+padding:20px;
+}
+
+.gift{
+height:150px;
+background:#ff4f81;
+border-radius:20px;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:60px;
+cursor:pointer;
+transition:.3s;
+}
+
+.gift:hover{
+transform:scale(1.05);
+}
+
+.locked{
+opacity:.4;
+}
+
+.progress{
+font-size:26px;
+margin-top:20px;
+font-weight:bold;
+}
+
+.open{
+background:white;
+font-size:18px;
+padding:10px;
+}
+
+#final{
+margin:30px;
+font-size:30px;
+font-weight:bold;
+color:#cc0066;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="balloon" style="left:10%">🎈</div>
+<div class="balloon" style="left:30%;animation-delay:2s;">🎈</div>
+<div class="balloon" style="left:50%;animation-delay:4s;">🎈</div>
+<div class="balloon" style="left:70%;animation-delay:1s;">🎈</div>
+<div class="balloon" style="left:90%;animation-delay:3s;">🎈</div>
+
+<div id="main">
+
+<div class="container">
+
+<h1>🎂 HANA 🎂</h1>
+
+<p>
+A Special Birthday Adventure Awaits...
+</p>
+
+<button onclick="startGame()">
+🎁 Start Adventure
+</button>
+
+</div>
+
+</div>
+
+<script>
+
+let currentGift=0;
+
+const messages=[
+
+"😂 Growing older is mandatory. Growing up is optional!",
+
+"🎂 Birthday calories don't count today!",
+
+"🦄 Happiness Level Unlocked!",
+
+"🐼 Panda hugs are on the way!",
+
+"🍕 Pizza fixes everything!",
+
+"👑 Queen Hana activated!",
+
+"🤣 Another year of awesomeness!",
+
+"🎈 Smile! Today belongs to you!",
+
+"❤️ One final surprise is waiting!"
+
+];
+
+function startGame(){
+
+document.getElementById("main").innerHTML=`
+
+<h1>🎁 Hana's Birthday Adventure 🎁</h1>
+
+<div class="progress">
+Open the gifts in order!
+</div>
+
+<div class="grid" id="grid">
+
+</div>
+
+<div id="final"></div>
+
+`;
+
+createGifts();
+
+}
+
+function createGifts(){
+
+const grid=document.getElementById("grid");
+
+for(let i=0;i<9;i++){
+
+let box=document.createElement("div");
+
+box.className="gift";
+
+if(i!=0){
+
+box.classList.add("locked");
+
+}
+
+box.innerHTML="🎁";
+
+box.onclick=function(){
+
+openGift(i,box);
+
+};
+
+grid.appendChild(box);
+
+}
+
+}
+
+function openGift(i,box){
+
+if(i!=currentGift){
+
+alert("Please open Gift "+(currentGift+1)+" first! 😊");
+
+return;
+
+}
+
+box.classList.remove("locked");
+
+box.classList.add("open");
+
+box.innerHTML=messages[i];
+
+currentGift++;
+
+let gifts=document.querySelectorAll(".gift");
+
+if(currentGift<9){
+
+gifts[currentGift].classList.remove("locked");
+
+}
+
+if(currentGift==9){
+
+document.getElementById("final").innerHTML=`
+
+<br>
+
+<button onclick="finalGift()">
+
+🏆 Open Final Golden Gift
+
+</button>
+
+`;
+
+}
+
+}
+
+function finalGift(){
+
+document.body.innerHTML=`
+
+<div style="padding:40px;">
+
+<h1 style="font-size:70px;color:#ff0066;">
+
+🎉 HAPPY BIRTHDAY HANA 🎉
+
+</h1>
+
+<br>
+
+<div style="font-size:120px;">
+
+🎂🎈🎊✨❤️
+
+</div>
+
+<br>
+
+<p style="font-size:30px;">
+
+May your day be filled with laughter,
+
+happiness,
+
+amazing memories,
+
+lots of cake,
+
+and endless reasons to smile!
+
+</p>
+
+<br>
+
+<h2>
+
+🏆 Achievement Unlocked!
+
+</h2>
+
+<br>
+
+<h2>
+
+You Completed Hana's Birthday Adventure!
+
+</h2>
+
+<br>
+
+<h2>
+
+😊 It's been a while,
+
+but I didn't want to miss
+
+the chance to wish you
+
+a very Happy Birthday!
+
+</h2>
+
+</div>
+
+`;
+
+}
+
+</script>
+
+</body>
+</html>

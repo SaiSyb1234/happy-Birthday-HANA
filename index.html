@@ -2,6 +2,7 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
 
 body{
@@ -25,18 +26,19 @@ background:white;
 margin:10px;
 padding:12px;
 border-radius:20px;
+cursor:pointer;
 }
 
 button{
-padding:10px 20px;
+padding:12px 20px;
 border:none;
 border-radius:20px;
 background:#ff4081;
 color:white;
 margin-top:15px;
+font-size:16px;
 }
 
-/* balloon */
 .balloon{
 position:fixed;
 font-size:22px;
@@ -47,22 +49,19 @@ animation:up 10s linear infinite;
 100%{transform:translateY(-120vh);}
 }
 
-/* gift */
 .gift{
 font-size:80px;
 cursor:pointer;
 }
 
-/* slide */
 .slide{
-animation:slideIn 0.5s;
+animation:slide 0.5s;
 }
-@keyframes slideIn{
+@keyframes slide{
 from{transform:translateX(100%);}
 to{transform:translateX(0);}
 }
 
-/* fade */
 .fade{
 opacity:0;
 animation:fade 1s forwards;
@@ -81,9 +80,44 @@ to{opacity:1;}
 
 <div id="app"></div>
 
+<!-- ✅ AUDIO FILES -->
+<audio id="quizMusic" src="quiz.mp3" loop></audio>
+<audio id="giftMusic" src="gift.mp3" loop></audio>
+
 <script>
 
-/* QUIZ */
+/* ✅ SAFE AUDIO */
+function play(id){
+let m=document.getElementById(id);
+if(m){
+m.play().catch(()=>{});
+}
+}
+
+function stop(id){
+let m=document.getElementById(id);
+if(m){
+m.pause();
+m.currentTime = 0;
+}
+}
+
+/* ================= START SCREEN ================= */
+
+function startScreen(){
+document.getElementById("app").innerHTML=`
+<h1>🎂 HANA 🎂</h1>
+<p>Tap to start your adventure</p>
+<button onclick="startQuiz()">Start 🎁</button>
+`;
+}
+
+function startQuiz(){
+play("quizMusic");
+showQ();
+}
+
+/* ================= QUIZ ================= */
 
 let q=0;
 let answered=false;
@@ -112,7 +146,7 @@ a:`Sorry... it was just another birthday question 😂`
 {
 q:`🎂 You can make ONE wish`,
 o:["Infinite money 💸","Infinite food 🍔","Infinite naps 😴","Infinite luck 🍀"],
-a:`Nice choice!<br>But today's wish was already used...<br>to make this birthday unforgettable ✨`
+a:`Nice choice!<br>But today's wish has already been used...<br>to make someone's birthday unforgettable ✨`
 },
 
 {
@@ -151,11 +185,14 @@ document.getElementById("app").innerHTML+=`
 
 function nextQ(){
 q++;
-if(q<quiz.length) showQ();
-else startGame();
+if(q<quiz.length){
+showQ();
+}else{
+startGame();
+}
 }
 
-/* GIFTS */
+/* ================= GIFTS ================= */
 
 let g=0;
 
@@ -172,6 +209,8 @@ const messages=[
 ];
 
 function startGame(){
+stop("quizMusic");
+play("giftMusic");
 showGift();
 }
 
@@ -203,9 +242,11 @@ finalPage();
 }
 }
 
-/* FINAL */
+/* ================= FINAL ================= */
 
 function finalPage(){
+
+stop("giftMusic");
 
 document.getElementById("app").innerHTML=`
 
@@ -226,9 +267,10 @@ document.getElementById("app").innerHTML=`
 }
 
 /* START */
-showQ();
+startScreen();
 
 </script>
 
 </body>
 </html>
+``
